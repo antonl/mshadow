@@ -3,6 +3,9 @@ set(_mshadow_DEFINES)
 set(_mshadow_INCLUDE_DIRS)
 set(_mshadow_DEPENDENCY_LIBS)
 
+# ---[ macros for autodetection of cuda environment
+include(cmake/Cuda-utils.cmake)
+
 # ---[ Initial switch to disable searching for libs
 if(MSHADOW_STANDALONE)
   message(WARNING "Building mshadow in standalone mode")
@@ -49,7 +52,6 @@ if(USE_CUDA)
     list(APPEND _mshadow_INCLUDE_DIRS ${CUDNN_INCLUDE_DIRS})
     list(APPEND _mshadow_DEPENDENCY_LIBS ${CUDNN_LIBRARIES})
     list(APPEND _mshadow_DEFINES MSHADOW_USE_CUDNN=1)
-
   else()
     message(WARNING "CUDA enabled, but not compiling with CuDNN.")
   endif()
@@ -57,14 +59,15 @@ if(USE_CUDA)
   # ---[ CUSOLVER support
   if(USE_CUSOLVER)
     # assume cusolver will be found if cuda is found. Not sure if true.
-    #find_package(CUSOLVER REQUIRED)
-    #list(APPEND _mshadow_INCLUDE_DIRS ${CUDNN_INCLUDE_DIRS})
-    #list(APPEND _mshadow_DEPENDENCY_LIBS ${CUDNN_LIBRARIES})
     list(APPEND _mshadow_DEFINES MSHADOW_USE_CUSOLVER=1)
+    list(APPEND _mshadow_DEPENDENCY_LIBS ${CUDA_cusolver_LIBRARY})
   else()
     list(APPEND _mshadow_DEFINES MSHADOW_USE_CUSOLVER=0)
     message(WARNING "CUDA enabled, but not compiling with cuSolver.")
   endif()
+
+  mshadow_select_nvcc_arch_flags(_mshadow_cuda_arch_flags)
+  set(CMAKE_CUDA_FLAGS "${_mshadow_cuda_arch_flags}")
 else(USE_CUDA)
   list(APPEND _mshadow_DEFINES STRINGS MSHADOW_USE_CUDA=0)
 endif()
@@ -75,6 +78,7 @@ CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 if(COMPILER_SUPPORTS_CXX11)
   list(APPEND _mshadow_DEFINES MSHADOW_IN_CXX11=1)
 endif()
+
 
 list(APPEND _mshadow_DEFINES MSHADOW_FORCE_STREAM=${MSHADOW_FORCE_STREAM})
 list(APPEND _mshadow_DEFINES USE_SSE=${USE_SSE})
