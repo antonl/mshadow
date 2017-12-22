@@ -68,6 +68,7 @@ if(USE_CUDA)
 
   mshadow_select_nvcc_arch_flags(_mshadow_cuda_arch_flags)
   set(CMAKE_CUDA_FLAGS "${_mshadow_cuda_arch_flags}")
+  message(STATUS "Current cmake cuda flags: ${_mshadow_cuda_arch_flags}")
 else(USE_CUDA)
   list(APPEND _mshadow_DEFINES STRINGS MSHADOW_USE_CUDA=0)
 endif()
