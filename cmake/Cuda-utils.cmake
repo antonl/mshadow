@@ -8,7 +8,7 @@ set(mshadow_known_gpu_archs "30 35 37 50 52 53 60 61 62 70")
 #   mshadow_select_nvcc_arch_flags(out_variable)
 function(mshadow_select_nvcc_arch_flags out_variable)
   # List of arch names
-  set(__archs_names "Fermi" "Kepler" "Maxwell" "Pascal" "Volta" "All" "Manual")
+  set(__archs_names "Kepler" "Maxwell" "Pascal" "Volta" "All" "Manual")
   set(__archs_name_default "All")
 
   # set CUDA_ARCH_NAME strings (so it will be seen as dropbox in CMake-Gui)
