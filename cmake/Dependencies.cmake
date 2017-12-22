@@ -67,7 +67,7 @@ if(USE_CUDA)
   endif()
 
   mshadow_select_nvcc_arch_flags(_mshadow_cuda_arch_flags)
-  set(CMAKE_CUDA_FLAGS "-arch=sm_30 ${_mshadow_cuda_arch_flags}")
+  set(CMAKE_CUDA_FLAGS "-arch=sm_60")
 else(USE_CUDA)
   list(APPEND _mshadow_DEFINES STRINGS MSHADOW_USE_CUDA=0)
 endif()
