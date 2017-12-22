@@ -15,12 +15,6 @@ target_include_directories(mshadow INTERFACE ${_mshadow_INCLUDE_DIRS})
 target_compile_definitions(mshadow INTERFACE ${_mshadow_DEFINES})
 target_link_libraries(mshadow INTERFACE ${_mshadow_DEPENDENCY_LIBS})
 
-if(USE_CUDA)
-  set_target_properties(mshadow PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-endif()
-
-set_target_properties(mshadow PROPERTIES POSITION_INDEPENDENT_CODE ON)
-
 # ---[ Handle SSE3 flag
 if(NOT MSVC) # I only want to deal with gcc-compatible things for now
   if(${USE_SSE})
