@@ -44,6 +44,8 @@ endif(USE_BLAS)
 
 # ---[ CUDA, CUDNN, and CUSOLVER
 if(USE_CUDA)
+  find_package(CUDA 7.0 REQUIRED)
+
   list(APPEND _mshadow_DEFINES MSHADOW_USE_CUDA=1)
 
   # ---[ CuDNN support

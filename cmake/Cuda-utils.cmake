@@ -1,6 +1,9 @@
 include(cmake/Utils.cmake)
 
-set(mshadow_known_gpu_archs "30 35 37 50 52 53 60 61 62 70")
+set(mshadow_known_gpu_archs "30 35 37 50 52 53 60 61 62")
+if(CUDA_VERSION VERSION_GREATER_EQUAL 9.0)
+  set(mshadow_known_gpu_archs "${mshadow_known_gpu_archs} 70")
+endif()
 
 ################################################################################################
 # Function for selecting GPU arch flags for nvcc based on CUDA_ARCH_NAME
