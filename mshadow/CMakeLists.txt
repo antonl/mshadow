@@ -1,6 +1,9 @@
 # build the mshadow interface library
 
-  # ---[ mshadow library
+# ---[ enable openmp support
+find_package(OpenMP)
+
+# ---[ mshadow library
 add_library(mshadow INTERFACE)
 
 target_sources(mshadow INTERFACE)
@@ -13,7 +16,7 @@ target_include_directories(mshadow INTERFACE
 # ---[ Add dependencies to interface target
 target_include_directories(mshadow INTERFACE ${_mshadow_INCLUDE_DIRS})
 target_compile_definitions(mshadow INTERFACE ${_mshadow_DEFINES})
-target_link_libraries(mshadow INTERFACE ${_mshadow_DEPENDENCY_LIBS})
+target_link_libraries(mshadow INTERFACE ${_mshadow_DEPENDENCY_LIBS} OpenMP::OpenMP_CXX)
 
 # ---[ Handle SSE3 flag
 if(NOT MSVC) # I only want to deal with gcc-compatible things for now
