@@ -10,13 +10,17 @@ option(USE_CUDNN "Use CuDNN" OFF)
 option(USE_CUSOLVER "Use CUSOLVER" OFF)
 option(USE_BLAS "Enable BLAS" OFF)
 
+option(USE_SSE "Use SSE instructions")
+
 option(MSHADOW_STANDALONE "mshadow should compile without any other libs" OFF)
 option(MSHADOW_FORCE_STREAM "force user to use GPU stream" ON)
 
 #option(USE_STATIC_MKL "When using MKL, link statically" OFF CACHE ADVANCED)
-#option(MSHADOW_USE_SSE "Use SSE instructions" ${USE_SSE} CACHE ADVANCED)
 # don't need option option to enable C++11 support, cmake does it
 #option(MSHADOW_USE_GLOG "Enable google logging" OFF CACHE ADVANCED)
+
+# ---{ Set default build type if unset
+include(cmake/SetBuildType.cmake)
 
 # ---{ Enable CUDA language if selected
 if(USE_CUDA)
