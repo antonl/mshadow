@@ -1,7 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "mshadow/tensor.h"
+#include <mshadow/tensor.h>
 #include "assert.h"
 
 #define EPS 0.0001

@@ -13,10 +13,14 @@
 #   MKL_LIBRARIES        : the libraries to link against.
 
 
+include(CMakeDependentOption)
+
 # ---[ Options
-caffe_option(MKL_USE_SINGLE_DYNAMIC_LIBRARY "Use single dynamic library interface" ON)
-caffe_option(MKL_USE_STATIC_LIBS "Use static libraries" OFF IF NOT MKL_USE_SINGLE_DYNAMIC_LIBRARY)
-caffe_option(MKL_MULTI_THREADED  "Use multi-threading"   ON IF NOT MKL_USE_SINGLE_DYNAMIC_LIBRARY)
+option(MKL_USE_SINGLE_DYNAMIC_LIBRARY "Use single dynamic library interface" ON)
+cmake_dependent_option(MKL_USE_STATIC_LIBS "Use static libraries" OFF 
+  "MKL_USE_SINGLE_DYNAMIC_LIBRARY" OFF)
+cmake_dependent_option(MKL_MULTI_THREADED  "Use multi-threading" ON 
+  "MKL_USE_SINGLE_DYNAMIC_LIBRARY" OFF)
 
 # ---[ Root folders
 if(MSVC)
@@ -112,4 +116,8 @@ if(MKL_FOUND)
   message(STATUS "Found MKL (include: ${MKL_INCLUDE_DIR}, lib: ${MKL_LIBRARIES}")
 endif()
 
-caffe_clear_vars(__looked_for __mkl_libs __path_suffixes __lib_suffix __iomp5_libs)
+unset(__looked_for)
+unset(__mkl_libs)
+unset(__path_suffixes)
+unset(__lib_suffix)
+unset(__iomp5_libs)
